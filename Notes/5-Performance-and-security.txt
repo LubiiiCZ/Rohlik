@@ -1,0 +1,3 @@
+Performance & Security Considerations
+- How would you approach performance testing for OMS? What tools and metrics would you use?
+- How would you ensure API security in an environment with sensitive customer data?

@@ -1,0 +1,3 @@
+Test Case Design
+- Write at least two detailed test cases, including all test steps and expected results, for the most critical areas of OMS.
+- One test case should focus on API testing, and the other should be UI-driven.

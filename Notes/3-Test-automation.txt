@@ -1,0 +1,9 @@
+Test Automation
+- Automate basic flow through the web (login-adding product into basket-check basket) using
+  a programming language/framework of your choice (Java + Selenium, TestNG, REST Assured, Cypress, etc.).
+- Ensure your test is scalable, reusable, and follows best coding practices.
+- Integrate the test into a CI/CD pipeline (you don’t need to set up a real pipeline, just describe how it would be implemented).
+
+C# + Selenium
+Page Object Model
+ChromeDriver

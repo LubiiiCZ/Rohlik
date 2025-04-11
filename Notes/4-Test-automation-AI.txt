@@ -1,0 +1,4 @@
+Test Automation using AI
+- Generate automated tests of registration to Rohlicek baby club using AI LLM model.
+  Describe what had to be changed and adjusted and why.
+- Present some example how AI could do autonomous testing based only on prompts without scripting.

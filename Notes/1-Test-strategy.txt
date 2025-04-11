@@ -1,0 +1,4 @@
+Test Strategy & Planning
+- Analyze the Order Management System (OMS) and propose a high-level test strategy.
+- Define at least three key testing areas (e.g., API stability, UI regression, database consistency).
+- Prioritize these areas based on risk and business impact.

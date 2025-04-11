@@ -1,0 +1,3 @@
+Exploratory Testing
+- Identify potential edge cases and failure scenarios that could impact OMS functionality.
+- Suggest a testing approach for uncovering hidden defects that automation might not catch.
