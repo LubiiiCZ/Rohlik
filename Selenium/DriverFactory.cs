@@ -18,7 +18,6 @@ public static class DriverFactory
         }
 
         var driver = new ChromeDriver(chromeOptions);
-        driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
 
         return driver;
     }

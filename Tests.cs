@@ -17,14 +17,24 @@ public class Tests
     [Test]
     public void HomePageTest()
     {
-        HomePage homePage = new(WebDriver!);
-        homePage.NavigateTo();
-        Assert.That(homePage.Title, Is.EqualTo("Online supermarket Rohlik.cz — nejrychlejší doručení ve městě"), "Title does not match.");
+        using (Assert.EnterMultipleScope())
+        {
+            HomePage homePage = new(WebDriver!);
+            homePage.NavigateTo();
+            Assert.That(homePage.Title, Is.EqualTo("Online supermarket Rohlik.cz — nejrychlejší doručení ve městě"), "Title does not match.");
+            Assert.That(homePage.Aside.IsPresent(), Is.False, "Cookies still present.");
 
-        //homePage.Login();
+            //homePage.Login();
 
-        homePage.AddFirstProductToCart();
-        Assert.That(homePage.BasketCounter.Text, Is.EqualTo("1"), "Basket counter does not match.");
+            var productName = homePage.GetProductName();
+            var productPrice = homePage.GetProductPrice();
+            homePage.AddFirstProductToCart();
+            Assert.That(homePage.BasketCounter.Text, Is.EqualTo("1"), "Basket counter does not match.");
+
+            homePage.OpenBasket();
+            Assert.That(homePage.BasketItemName.Text, Is.EqualTo(productName), "Product name does not match.");
+            Assert.That(homePage.BasketItemPrice.Text, Is.EqualTo(productPrice), "Product price does not match.");
+        }
     }
 
     [OneTimeTearDown]
