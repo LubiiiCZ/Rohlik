@@ -7,3 +7,12 @@ Test Automation
 C# + Selenium
 Page Object Model
 ChromeDriver
+
+Vylepšení)
+- lepší unikátní identifikátory elementů
+- třídy pro jednotlivé komponenty (karta produktu, ...)
+- base classes (BasePage, BaseComponent, BaseTest...)
+- appsettings.json
+- logging
+- dokumentace
+- ...

@@ -2,3 +2,40 @@ Test Strategy & Planning
 - Analyze the Order Management System (OMS) and propose a high-level test strategy.
 - Define at least three key testing areas (e.g., API stability, UI regression, database consistency).
 - Prioritize these areas based on risk and business impact.
+
+Strategie vychází z testovací pyramidy, což je ověřený standard.
+- Unit testy dílčích funkcionalit
+    - Typicky psané vývojáři, ale SDET by měl být schopen vytvořit testy sám. Nebo alespoň z velké části pomoci
+- Servisní / API / Integrační testy
+    - Ověření kompatibility jednotlivých kontraktů mezi službami
+    - Stabilita, můžeme přidat i základní performance výsledky
+    - Hraniční případy
+    - DB - konzistence dat
+- UI testy
+    - Manuální průchody připravených scénářů
+    - Exploratory testing
+    - Automatizace regrese
+        - Nejběžnější uživatelská flow, primárně happy-path
+        - Zde může pomoci s generováním a údržbou AI
+
+Již v prvních verzích zadání se QA zamýšlí nad testovatelností, přípravou dat a automatizací.
+V době nasazení první verze na testovací prostředí by již mělo QA být jasno co a jak bude testovat.
+První manuální průchody a iterace oprav ve spolupráci s developerem.
+Při manuálním testování sbírá QA zkušenosti a podklady dále potřebné pro automatizaci.
+Snaha o maximalizaci automatizace regresní sady.
+
+- Další oblasti k samostatnému testování by byly Performance, Security a UX
+
+
+Prioritizace oblastí (od nejvyšší):
+- API - služby odpovídají dle očekávání, pokrytí všech stavů, rychlost, funkčnost dle zadané business logiky
+- DB - konzistence dat, integrita, bezpečnost
+- Integrace - např. funkční služby třetích stran - platební brána, mailer, ...
+- Security - DDOS, legal, logování osobních údajů, ...
+- Performance - load, responsivity, ...
+- UI - nové features, regrese, automatizace, UX
+- Exploratory - out of the box, mimo běžné scénáře, další prohlížeče, intuitivita rozhraní...
+- Lokalizace - priorita může být vyšší např. při spouštení v nové zemi
+- Logování - kontrola kompletních logů a monitoringu, zdali jsou např. nové features zahrnuty
+
+Záleží na aktuálním cíli, priority "se mají" tendenci měnit :-)

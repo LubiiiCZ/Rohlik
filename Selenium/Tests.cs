@@ -1,8 +1,7 @@
 ﻿using OpenQA.Selenium;
-using Rohlik.Selenium;
 using Rohlik.Selenium.Pages;
 
-namespace Rohlik;
+namespace Rohlik.Selenium;
 
 public class Tests
 {
