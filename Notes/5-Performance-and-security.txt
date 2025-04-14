@@ -1,3 +1,50 @@
 Performance & Security Considerations
 - How would you approach performance testing for OMS? What tools and metrics would you use?
 - How would you ensure API security in an environment with sensitive customer data?
+
+Pro performance testy bych nejprve identifikoval a prioritizoval nejkritičtější části systému a uživatelské průchody.
+Typicky by šlo o: přihlášení, manipulaci s košíkem, odeslání objednávky, komunikaci s platební bránou, a odesílání notifikací.
+Ke každé z těchto oblastí bychom stanovili očekávané zatížení, cílové časy odezvy a další důležité metriky.
+Cílem by bylo ověřit, že systém zvládá běžný provoz i provoz ve špičce a zároveň odhalit slabá místa a úzká hrdla.
+
+Následně připravíme zátěžové testy ke každé oblasti, např.:
+- load test pro standardní provoz
+- stress test pro odhalení uzkých hrdel
+- soak test s delší dobou trvání (24h)
+- spike test - jak dlouho trvá návrat do normálu
+Z nástrojů mám praktickou zkušenost s JMeterem, který bych použil k vytvoření skriptů a scénářů pro různé typy zátěžových testů.
+Pro sledování trendů, výkonnostních metrik a vizualizaci výsledků lze využít například Prometheus ve spojení s Grafanou.
+Tyto nástroje znám zatím jen z uživatelského pohledu — jejich implementaci a správu u nás řešili DevOps specialisté,
+ale orientuji se v jejich výstupech a umím je interpretovat.
+Testy lze integrovat do CI/CD pipeline a pravidelně spouštět např. při nasazení do testovacího prostředí,
+pro sběr dat a porovnání trendů v čase.
+
+Sledované metriky:
+- vytížení CPU a využití RAM
+- doba odezvy (95%, 99%)
+- propustnost (transakce za sekundu)
+- error rate
+- škalovatelnost (jak moc se zvýší reálná zátěž při např. dvojnásobném vstupním zatížení)
+
+#################################################################################################################
+
+
+Na oblast bezpečnosti jsem se zatím přímo nespecializoval,
+ale mám povědomí o základních principech a snažím se je při testování zohledňovat.
+
+Každé API volání by mělo obsahovat autentifikační token, nejběžněji se setkávám s JWT nebo OAuth2.
+Uživatelé mají definovány role, které umožňují provádění daných akcí.
+Jednotlivá pravidla jsou dána přímo back-end business logikou.
+Správné fungování autentifikace a autorizace lze ověřit automatizovanými API testy — testujeme nejen "happy-path",
+ale i pokusy o přístup k cizím nebo nepovoleným datům.
+
+Důležitým aspektem je také práce s osobními údaji (např. jméno, adresa, telefon).
+Ty by se neměly objevit ve výstupech, chybových hláškách, URL parametrech ani systémových lozích.
+Věřím, že ochrana proti útokům typu SQL injection je dnes již součástí většiny vývojových frameworků,
+ale je vhodné se ujistit, že je správně implementována a žádná zranitelnost nevznikla například špatným přístupem k databázi.
+Na obranu proti botům může pomoci rate limiter a další omezovače přímo na gatewayi.
+Případně existují třetí strany, přes které traffic prochází a je očištěn.
+
+Veškerá komunikace by měla probíhat výhradně přes HTTPS, s platným certifikátem.
+U citlivých operací (např. změna hesla, platební údaje) je vhodné nabídnout i dvoufázové ověření (2FA),
+ať už přes SMS nebo mobilní aplikaci.
