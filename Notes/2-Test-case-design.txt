@@ -1,3 +1,120 @@
 Test Case Design
 - Write at least two detailed test cases, including all test steps and expected results, for the most critical areas of OMS.
 - One test case should focus on API testing, and the other should be UI-driven.
+
+
+1) API test case
+Nemám k dispozici přesnou dokumentaci API endpointů, takže si budu trochu vymýšlet.
+Obsah košíku vidím, že je persistentní na straně serveru.
+Zkusím tedy jednoduchý modelový případ:
+- přihlášení uživatele
+- přidání produktu do košíku
+- kontrola košíku
+- vyprázdnění košíku
+
+Letmo jsem kouknul na komunikaci a použil bych nejspíše tato volání:
+
+a) POST na přidání produktu do košíku s příkladem request body a response body
+POST https://www.rohlik.cz/api/v1/cart/item
+    {"amount":1,"productId":1353803,"actionId":10769096,"source":"false:Homepage Product Slider:price-hits"}
+    response: {"cartItemId":1468907692,"amount":1}
+
+b) GET na získání obsahu košíku v response body potom detaily
+GET https://www.rohlik.cz/services/frontend-service/v2/cart
+
+c) DELETE na odebrání produktu z košíku (URL encoded)
+DELETE https://www.rohlik.cz/services/frontend-service/v2/cart?orderFieldId=1468907692
+
+Pro přihlášní (Google) tam toho lítá kupa, takže to zjednodušším na klasiku: získání tokenu z identity managementu.
+Pro manuální exekuci bych použil např. Postman, případně třeba přímo ze (správně nakonfigurovaného) Swaggeru.
+Dále lze přemýšlet o zavedení scénáře do automatizované regrese, kam by tento scénář určitě zapadal.
+Nástroj pro automatizaci už může být libovolný. Jestli zůstane v Postmanovi nebo něčem robustnějším.
+
+
+Scénář - Přihlášení, přidání a odebrání produktu z košíku
+-------------------------------------------------------------
+//Zde můžeme přidat všechny požadované parametry scénáře: priorita, kategorie, časová náročnost, prostředí a další štítky...
+
+Preconditions:
+Máme existujícího uživatele pro přihlášení
+Má nastavenou a vybranou adresu doručení
+Máme product id, který je skladem a doručuje se na nastavenou adresu
+
+1. Získej auth token
+POST https://identity.rohlik.cz/token
+{headers, credentials...}
+
+Expected: STATUS 200 OK, token získán v response body
+//Získaný token bude přikládán do hlaviček následujících volání
+
+2. Přidej produkt do košíku
+POST https://www.rohlik.cz/api/v1/cart/item
+{"amount":1,"productId":1353803,"actionId":10769096,"source":"false:Homepage Product Slider:price-hits"}
+
+Expected: STATUS 201 CREATED
+Response body obsahuje cartItemId
+Amount odpovídá zadanému množství (1)
+
+3. Zkontroluj obsah košíku
+GET https://www.rohlik.cz/services/frontend-service/v2/cart
+
+Expected: STATUS 200 OK
+Response body obsahuje přidaný product
+(Tady můžeme případně udělat velmi detailní kontrolu všech dat)
+
+4. Odeber produkt z košíku, pomocí cartItemId z kroku 2
+DELETE https://www.rohlik.cz/services/frontend-service/v2/cart?orderFieldId={cartItemId}
+
+Expected: STATUS 200 OK
+Response body obsahuje aktualizovaný stav košíku bez odebraného produktu (měl by být prázdný)
+
+
+2) UI test case
+Pro porovnání udělám totéž pro UI scénář
+Manuální exekuce nad požadovanými prohlížeči
+Následně možnost automatizace
+
+Scénář - Přihlášení, přidání a odebrání produktu z košíku
+-------------------------------------------------------------
+//Zde můžeme přidat všechny požadované parametry scénáře: priorita, kategorie, časová náročnost, prostředí, prohlížeče a další štítky...
+
+Preconditions:
+Máme existujícího uživatele pro přihlášení
+Má nastavenou a vybranou adresu doručení
+Vyprázdněný košík
+
+1. Přihlaš zákazníka
+https://www.rohlik.cz/
+Klikni na "Přihlásit se" v pravém horním rohu
+Vyplň email testovaci@rohlik.cz
+Vyplň heslo cerstvyrohlik1
+Klikni "Přihlásit se"
+
+Expected:
+Zobrazilo se přihlašovací popup okno
+Podařilo se přihlásit, popup se zavřel
+V pravém horním rohu je vidět přihlášený zákazník
+
+
+2. Přidej produkt do košíku
+V sekci "Cenové trháky týdne" klikni na "+" u prvního dostupného produktu
+
+Expected:
+Jeden kus daného produktu byl přidán do košíku
+V pravém horním rohu je zobrazeno počitadlo kusů v košíku (1) a odpovídající cena
+
+
+3. Zkontroluj obsah košíku
+Klikni na košík v pravém horním rohu
+Zkontroluj obsah košíku
+
+Expected:
+Otevřel se boční panel s přehledem košíku
+Obsahuje jeden kus přidaného produktu s odpovídající cenou
+
+
+4. Odeber produkt z košíku
+Pro odebrání produktu klikni na křížek v pravém horním rohu na řádku produktu
+
+Expected:
+Produkt byl odebrán z košíku (nyní by měl být opět prázdný)

@@ -4,6 +4,7 @@ Test Automation
 - Ensure your test is scalable, reusable, and follows best coding practices.
 - Integrate the test into a CI/CD pipeline (you don’t need to set up a real pipeline, just describe how it would be implemented).
 
+Řešení ve složce "Selenium"
 C# + Selenium
 Page Object Model
 ChromeDriver
