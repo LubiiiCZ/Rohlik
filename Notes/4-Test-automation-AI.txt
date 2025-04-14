@@ -2,3 +2,49 @@ Test Automation using AI
 - Generate automated tests of registration to Rohlicek baby club using AI LLM model.
   Describe what had to be changed and adjusted and why.
 - Present some example how AI could do autonomous testing based only on prompts without scripting.
+
+Výsledky s kódem ve složce AI.
+
+První iterace za použití jednoduchého promptu pro ChatGPT:
+"Create an automated test of registration to Rohlicek baby club, using C# and Selenium."
+AI/Iteration1.cs
+
+I takto základní povel s minimem specifikací a instrukcí přinesl relativně zajímavý výsledek.
+Spustitelný ani správný není, ale může tvořit výchozí bod.
+Adresu registrační stránky našel správnou.
+Správně se pokouší odsouhlasit cookies banner, ale lokátor netrefuje.
+Dále správně tipuje, že by měl začít registrační flow stiskem tlačítka - ale opět se špatným lokátorem.
+Pokusil by se vyplňovat registrační údaje (asi tipnuté), ale nejprve je potřeba se přihlásit zákaznickým účtem.
+Pokud provedu přihlášení, tak je vidět, že jeho představa formuláře je značně jiná od reality.
+Nejprve bude potřeba vybrat jednu z radio možností.
+Poté zvolit pohlaví a vyplnit jméno a datum narození.
+Nutno podotknout, že sám upozorňuje "Adjust selectors and form data as necessary based on the real registration form."
+Dále správně vybízí k užití explicitních waitů.
+
+
+Zkouším druhou iteraci s poskytnutím více detailů:
+"Scrape the actual site and generate precise selectors.
+Also note, that after clicking the button to start the egistration flow,
+you first need to login as a customer.
+After that you need to choose one of the radio buttons concerning the age of the child.
+Then click a button to add new child, either a boy or a girl. Then fill the baby's data - name and date of birth."
+AI/Iteration2.cs
+
+Snaží se používat explicitní waity, ale bohužel z nenalinkovaných knihoven. (SeleniumExtras.WaitHelpers.ExpectedConditions)
+Pochopil, že se musí nejdříve přihlásit a dokonce s použitelnými lokátory.
+Tedy až na submit button, ten bohužel předběhlo potvrzení hledání v záhlaví stránky.
+Další krok s výběrem věku dítěte má opět špatný lokátor.
+Vlastně všechny další lokátory jsou špatné, tak jak lákavě nabízel:
+"Would you like me to scrape the actual site and generate precise selectors?", tak nic takového neproběhlo.
+
+Hlavním nepřítelem zdá se tedy být neobratnost v zaměřování správných elementů.
+Celková struktura kódu je bez jakékoliv znovupoužitelné architektury (např. page object model), dělení do metod, atp.
+Navíc se snaží využívat neexistující metody.
+Pán je to tedy špatný, ale pro menší dílčí úkoly v rukou zkušeného testera dokáže jistě pomoci.
+
+
+
+Co se týče otázky plně autonomního AI testování založeného čistě na zadaných pokynech,
+tak s tímto mám upřímně nulové zkušenosti.
+Ale je to oblast, kterou chci co nejdříve prozkoumat, protože má obrovský potenciál.
+Nástroj jako https://www.testim.io/ rozhodně stojí za pozornost.
