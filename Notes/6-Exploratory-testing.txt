@@ -1,3 +1,40 @@
 Exploratory Testing
 - Identify potential edge cases and failure scenarios that could impact OMS functionality.
 - Suggest a testing approach for uncovering hidden defects that automation might not catch.
+
+Zvolil bych přístup s předem daným cílem na prozkoumávanou oblast a časovou dotací. (session-based)
+Můžeme zkoušet např. i simulovat zmatené/frustrované uživatele.
+
+Příklad: 30 minut manipulace s košíkem.
+- přidávat, ubírat položky
+- ruční změny počtu
+- užívání navigačních tlačítek (vpřed, zpět, refresh)
+- otevření stejného účtu z více oken, strojů, zařízení
+- rychlé odesílání více změn
+- a další "náhodné" souslednosti akcí
+
+Lidský přístup může odhalit problémy, které stroj nerozpozná:
+- chyby v UI
+    - překrývající se prvky
+    - "problikávající" loading elementů nebo úplně nenačtení
+    - špatné znaky a jiné artefakty
+    - překlady
+    - dlouhé názvy (přetékání)
+- UX problémy
+    - nelogická flow
+    - neintuitivní ovládání
+    - špatná odezva
+    - nepřehlednost
+    - terminologie
+    - nesrozumitelná validace formulářů
+- Technické nedostatky
+    - vypršení tokenu
+    - nekonzistence dat
+    - výpadky služeb
+- cokoliv, co nás nenapadlo při analýze a přípravě testovacích scénářů
+
+Je vhodné si celou testing session nahrávat, abychom měli možnost lépe dohledat zpětně, co k případné chybě vedlo.
+Ideální je i zaznamenávat a ukládat API komunikaci například pomocí proxy přes Fiddler.
+
+Z výsledků exploratory testingu můžeme následně rozšířit regresní sadu (manuální i automatizovanou).
+Můžeme zavést/upravit checklist pro příští sezení.

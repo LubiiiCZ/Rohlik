@@ -12,7 +12,7 @@ Zkusím tedy jednoduchý modelový případ:
 - kontrola košíku
 - vyprázdnění košíku
 
-Letmo jsem kouknul na komunikaci a použil bych nejspíše tato volání:
+Na základě inspekce komunikace v prohlížeči bych nejspíše použil tato volání:
 
 a) POST na přidání produktu do košíku s příkladem request body a response body
 POST https://www.rohlik.cz/api/v1/cart/item
@@ -26,7 +26,7 @@ c) DELETE na odebrání produktu z košíku (URL encoded)
 DELETE https://www.rohlik.cz/services/frontend-service/v2/cart?orderFieldId=1468907692
 
 Pro přihlášní (Google) tam toho lítá kupa, takže to zjednodušším na klasiku: získání tokenu z identity managementu.
-Pro manuální exekuci bych použil např. Postman, případně třeba přímo ze (správně nakonfigurovaného) Swaggeru.
+Pro manuální exekuci bych použil např. Postman, případně Swagger UI s napojením na validní auth token.
 Dále lze přemýšlet o zavedení scénáře do automatizované regrese, kam by tento scénář určitě zapadal.
 Nástroj pro automatizaci už může být libovolný. Jestli zůstane v Postmanovi nebo něčem robustnějším.
 
@@ -62,11 +62,11 @@ Expected: STATUS 200 OK
 Response body obsahuje přidaný product
 (Tady můžeme případně udělat velmi detailní kontrolu všech dat)
 
-4. Odeber produkt z košíku, pomocí cartItemId z kroku 2
+4. Odeber produkt z košíku, použij cartItemId získaný z předchozího volání (step 2)
 DELETE https://www.rohlik.cz/services/frontend-service/v2/cart?orderFieldId={cartItemId}
 
 Expected: STATUS 200 OK
-Response body obsahuje aktualizovaný stav košíku bez odebraného produktu (měl by být prázdný)
+Response body obsahuje aktualizovaný stav košíku bez odebraného produktu (košík je prázdný)
 
 
 2) UI test case
@@ -77,6 +77,7 @@ Následně možnost automatizace
 Scénář - Přihlášení, přidání a odebrání produktu z košíku
 -------------------------------------------------------------
 //Zde můžeme přidat všechny požadované parametry scénáře: priorita, kategorie, časová náročnost, prostředí, prohlížeče a další štítky...
+//Scénář bych doplnil ilustračními obrázky
 
 Preconditions:
 Máme existujícího uživatele pro přihlášení
@@ -117,4 +118,4 @@ Obsahuje jeden kus přidaného produktu s odpovídající cenou
 Pro odebrání produktu klikni na křížek v pravém horním rohu na řádku produktu
 
 Expected:
-Produkt byl odebrán z košíku (nyní by měl být opět prázdný)
+Produkt byl odebrán z košíku (nyní je košík opět prázdný)
